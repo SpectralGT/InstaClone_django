@@ -1,10 +1,18 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 # Create your models here.
- class Profile(models.Model):
-    user = pass
-    id_user = pass
-    bio = pass
-    profileimage = models.ImageField()
-    locationn = pass
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_user = models.IntegerField()
+    bio = models.TextField(blank=True)
+    profileimage = models.ImageField(
+        upload_to="profile_images", default="blank_profile-picture.png"
+    )
+    locationn = models.CharField(max_length=100, blank=True)
 
+    def __str__(self):
+        return self.user.username
